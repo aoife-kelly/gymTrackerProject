@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,8 +67,40 @@ namespace gymTracker
 
         private void saveBtn_Click(object sender, RoutedEventArgs e)
         {
-            // save workout to database
-            new customMbx("Workout saved successfully!").ShowDialog();
+            string name = workoutNameTbx.Text;
+
+            //turn list of exercises into one string (e.g., "Squats, Bench, Deadlift")
+            string exercises = string.Join(", ", currentWorkoutExercises);
+
+            // get today's date as a string in the format "yyyy-MM-dd" (e.g., "2024-06-01")
+            string today = DateTime.Now.ToString("yyyy-MM-dd");
+
+            // this will create the database file if it doesn't exist, and create the SavedWorkouts table if it doesn't exist, then insert the workout data
+            using (var connection = new SqliteConnection("Data Source=C:\\temp\\gymData.db"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "INSERT INTO SavedWorkouts (WorkoutName, Exercises, DateCreated) VALUES ($name, $ex, $date, $sets, $reps)"; // use parameterized query to prevent SQL injection [[copilot suggestion?]] this is important for security, especially if you ever expand this app to allow users to input more data or share workouts with others
+
+                command.Parameters.AddWithValue("$name", name); // add the workout name parameter
+                command.Parameters.AddWithValue("$ex", exercises); // add the exercises parameter
+                command.Parameters.AddWithValue("$date", today); // add the date parameter
+
+                command.ExecuteNonQuery(); // execute the command to insert the workout into the database
+            }
+
+            MessageBox.Show("Workout successfully saved for today!");
+
+            if (this.Owner != null) // if the owner window (MainWindow) is still open, refresh the workout list to show the newly added workout
+            {
+                if (this.Owner is MainWindow mainMenu) // check if the owner window is of type MainWindow, and if so we can call the RefreshTodaysWorkout method to update the workout list on the main menu
+                {
+                    mainMenu.RefreshTodaysWorkout(); // call the method in MainWindow to refresh the workout list, this will show the newly added workout without needing to restart the app
+                }
+                this.Owner.Show(); // show the owner window (MainWindow) again after saving the workout
+            }
+
+            this.Close(); // close the window after saving
         }
 
         private async void exerciseSearchTbx_TextChanged(object sender, TextChangedEventArgs e)

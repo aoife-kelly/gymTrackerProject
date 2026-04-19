@@ -16,23 +16,15 @@
     </Window.Resources>
 
     <Grid Background="White">
-
-        <!-- stacking everything -->
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
-            <!-- header -->
             <RowDefinition Height="Auto" />
-            <!-- workout name/save -->
             <RowDefinition Height="Auto" />
-            <!-- search bar -->
             <RowDefinition Height="*" />
-            <!-- rest of the area left -->
         </Grid.RowDefinitions>
 
-        <!-- header -->
         <Border Grid.Row="0"
                 Style="{StaticResource HeaderBar}">
-
             <Button x:Name="menuBackBtn"
                     Content="Back"
                     Style="{StaticResource WhiteRoundedButton}"
@@ -44,56 +36,75 @@
                     Click="menuBackBtn_Click" />
         </Border>
 
-        <!-- workout name nad save button beside each other -->
         <Grid Grid.Row="1"
-              Margin="20,20,20,0"
-              VerticalAlignment="Top">
+              Margin="20,20,20,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <!-- takes yp available space -->
-                <ColumnDefinition Width="65" />
-                <!-- had to change this from 80 bc it looked weird when i ran it -->
+                <ColumnDefinition Width="90" />
             </Grid.ColumnDefinitions>
 
             <TextBox x:Name="workoutNameTbx"
+                     Grid.Column="0"
                      Style="{StaticResource PinkTextBox}"
                      Tag="Enter workout name..."
-                     Grid.Column="0"
-                     Margin="0,-10,20,10"
+                     Margin="0,0,10,0"
+                     Height="45"
+                     VerticalAlignment="Center"
                      GotFocus="workoutNameTbx_GotFocus"
                      LostFocus="workoutNameTbx_LostFocus" />
 
             <Button x:Name="saveBtn"
+                    Grid.Column="1"
                     Style="{StaticResource PinkRoundedButton}"
                     Content="Save"
-                    Grid.Column="1"
-                    Margin="0,-10,0,10"
+                    Height="45"
+                    FontSize="16"
+                    FontWeight="Bold"
                     Click="saveBtn_Click" />
         </Grid>
 
-        <!-- search -->
-        <Grid Grid.Row="2"
-              Margin="20,10,20,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="65" />
-            </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="2"
+                    Margin="20,0,20,10">
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="75" />
+                    <ColumnDefinition Width="75" />
+                </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="exerciseSearchTbx"
-                     Grid.Column="0"
-                     Style="{StaticResource PinkTextBox}"
-                     Tag="Search..."
-                     TextChanged="exerciseSearchTbx_TextChanged"
-                     Margin="0,0,10,0"
-                     GotFocus="exerciseSearchTbx_GotFocus"
-                     LostFocus="exerciseSearchTbx_LostFocus" />
+                <TextBox x:Name="exerciseSearchTbx"
+                         Grid.Column="0"
+                         Style="{StaticResource PinkTextBox}"
+                         Tag="Search..."
+                         Margin="0,0,5,0"
+                         Width="Auto"
+                         GotFocus="exerciseSearchTbx_GotFocus"
+                         LostFocus="exerciseSearchTbx_LostFocus"
+                         TextChanged="exerciseSearchTbx_TextChanged" />
+
+                <TextBox x:Name="setsTbx"
+                         Grid.Column="1"
+                         Style="{StaticResource PinkTextBox}"
+                         Tag="Sets"
+                         Width="Auto"
+                         Margin="0,0,5,0"
+                         HorizontalContentAlignment="Center" />
+
+                <TextBox x:Name="repsTbx"
+                         Grid.Column="2"
+                         Style="{StaticResource PinkTextBox}"
+                         Tag="Reps"
+                         Width="Auto"
+                         HorizontalContentAlignment="Center" />
+            </Grid>
 
             <Button x:Name="addExerciseBtn"
-                    Grid.Column="1"
                     Style="{StaticResource PinkRoundedButton}"
-                    Content="Add"
+                    Content="Add Exercise"
+                    Height="45"
+                    Margin="0,0,0,0"
                     Click="addExerciseBtn_Click" />
-        </Grid>
+        </StackPanel>
 
         <ListBox x:Name="exercisesLBx"
                  Grid.Row="3"
@@ -114,14 +125,18 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
 
-        <Label Content="Current Workout:"
-               Grid.Row="3"
-               Margin="20,40,0,0"
-               FontWeight="Bold" />
-
-        <ListBox x:Name="addedExercisesLBx"
-                 Grid.Row="3"
-                 Margin="20,65,20,20" />
-
+        <Grid Grid.Row="3"
+              Margin="20,10,20,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Content="Current Workout:"
+                   FontWeight="Bold"
+                   Foreground="{StaticResource PinkBrush}" />
+            <ListBox x:Name="addedExercisesLBx"
+                     Grid.Row="1"
+                     Margin="0,5,0,0" />
+        </Grid>
     </Grid>
 </Window>

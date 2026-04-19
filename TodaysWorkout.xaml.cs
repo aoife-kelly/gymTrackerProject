@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,30 @@ namespace gymTracker
         public TodaysWorkout()
         {
             InitializeComponent();
+            LoadWorkoutData();
+        }
+
+        private void LoadWorkoutData()
+        {
+            string today = DateTime.Now.ToString("yyyy-MM-dd");
+
+            using (var connection = new SqliteConnection("Data Source=C:\\temp\\gymData.db"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT WorkoutName, Exercises FROM SavedWorkouts WHERE DateCreated = $date";
+                command.Parameters.AddWithValue("$date", today);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        // update labels/textblocks with the data from the database
+                        workoutNameLabel.Content = reader.GetString(0);
+                        exercisesTextBlock.Text = reader.GetString(1);
+                    }
+                }
+            }
         }
 
         private void todaysWorkoutBackBtn_Click(object sender, RoutedEventArgs e)

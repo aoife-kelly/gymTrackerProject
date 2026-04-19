@@ -36,6 +36,23 @@
         <!-- page content -->
         <Grid Grid.Row="1">
             <!-- content -->
+            <ListBox x:Name="routinesLBx"
+                     Margin="20"
+                     FontSize="18"
+                     Background="White"
+                     BorderBrush="#FFD1DC"
+                     BorderThickness="2">
+        <!-- the itemtemplate below keeps my pink theme -->
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"
+                                   Foreground="{StaticResource PinkBrush}"
+                                   FontSize="18"
+                                   Margin="5" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
         </Grid>
     </Grid>
 </Window>

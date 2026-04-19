@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Data.Sqlite;
+
 
 namespace gymTracker
 {
@@ -22,7 +24,28 @@ namespace gymTracker
         public SavedRoutines()
         {
             InitializeComponent();
+            LoadAllRoutines();
         }
+
+        private void LoadAllRoutines()
+        {
+            using (var connection = new SqliteConnection("Data Source=gymData.db"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT WorkoutName FROM SavedWorkouts";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string workoutName = reader.GetString(0);
+                        routinesLBx.Items.Add(workoutName);
+                    }
+                }
+            }
+        }
+
         private void savedRoutinesBackBtn_Click(object sender, RoutedEventArgs e)
         {
             // open main menu window

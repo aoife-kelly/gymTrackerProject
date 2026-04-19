@@ -5,36 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:gymTracker"
         mc:Ignorable="d"
-        Title="TodaysWorkout" 
-        Height="844" 
+        Title="TodaysWorkout"
+        Height="844"
         Width="399"
         WindowStartupLocation="CenterScreen"
         UseLayoutRounding="True"
         SnapsToDevicePixels="True">
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!-- header -->
-        <Border Grid.Row="0" Style="{StaticResource HeaderBar}">
+        <Border Grid.Row="0"
+                Style="{StaticResource HeaderBar}">
 
             <Button x:Name="todaysWorkoutBackBtn"
-            Content="Back"
-            Style="{StaticResource WhiteRoundedButton}"
-            Width="70"
-            Height="40"
-            Margin="20,15,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Click="todaysWorkoutBackBtn_Click"/>
+                    Content="Back"
+                    Style="{StaticResource WhiteRoundedButton}"
+                    Width="70"
+                    Height="40"
+                    Margin="20,15,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="todaysWorkoutBackBtn_Click" />
         </Border>
 
         <!-- page content -->
-        <Grid Grid.Row="1">
-            <!-- content -->
-        </Grid>
+        <!-- using stackpanel instead of grid bc its easier -->
+        <StackPanel Grid.Row="1">
+            <Label x:Name="workoutNameLabel"
+                   Content="Workout Name"
+                   FontSize="24"
+                   Foreground="{StaticResource PinkBrush}"
+                   HorizontalAlignment="Center"
+                   Margin="0,20,0,0" />
+
+            <TextBlock x:Name="exercisesTextBlock"
+                       Text="Exercises will appear here"
+                       FontSize="18"
+                       Foreground="{StaticResource PinkBrush}"
+                       TextWrapping="Wrap"
+                       Margin="20,10,20,0"
+                       HorizontalAlignment="Center" />
+        </StackPanel>
     </Grid>
 </Window>
