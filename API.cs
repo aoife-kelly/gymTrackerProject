@@ -38,9 +38,7 @@ namespace gymTracker
                     {
                         Console.WriteLine(exercise.name);
                     }
-
                     Console.WriteLine(body);
-
                 }
             }
         }

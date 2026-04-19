@@ -5,19 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:gymTracker"
         mc:Ignorable="d"
-        Title="TodaysWorkout" Height="844" Width="399">
+        Title="TodaysWorkout" 
+        Height="844" 
+        Width="399"
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- HEADER -->
+        <!-- header -->
         <Border Grid.Row="0" Style="{StaticResource HeaderBar}"/>
 
-        <!-- PAGE CONTENT -->
+        <!-- page content -->
         <Grid Grid.Row="1">
-            <!-- your content goes here -->
+            <!-- content -->
         </Grid>
     </Grid>
 </Window>
