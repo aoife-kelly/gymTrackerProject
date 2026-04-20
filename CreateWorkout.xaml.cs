@@ -151,12 +151,43 @@ namespace gymTracker
                 // clear the search box and hide the search results
                 exerciseSearchTbx.Text = "";
                 exercisesLBx.Visibility = Visibility.Collapsed;
+
+                exerciseSearchTbx.Text = exerciseSearchTbx.Tag.ToString(); // from here on was trying to reset search/sets/reps placeholder but i couldn't get sets figured out
+                setsTbx.Text = setsTbx.Tag.ToString();
+                repsTbx.Text = repsTbx.Tag.ToString();
+
+                exerciseSearchTbx.Focus(); // set focus back to the search box for convenience
             }
             else
             {
                 MessageBox.Show("Please select an exercise from the search results list first!");
             }
+        }
 
+        private void setsTbx_GotFocus(object sender, RoutedEventArgs e)
+        {
+            setsTbx.Tag = "";
+        }
+
+        private void setsTbx_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(setsTbx.Text))
+            {
+                setsTbx.Tag = "Sets";
+            }
+        }
+
+        private void repsTbx_GotFocus(object sender, RoutedEventArgs e)
+        {
+            repsTbx.Tag = "";
+        }
+
+        private void repsTbx_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(repsTbx.Text))
+            {
+                repsTbx.Tag = "Reps";
+            }
         }
     }
 }
