@@ -12,16 +12,15 @@
         UseLayoutRounding="True"
         SnapsToDevicePixels="True">
 
-    <Grid>
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- header -->
         <Border Grid.Row="0"
                 Style="{StaticResource HeaderBar}">
-
             <Button x:Name="savedRoutinesBackBtn"
                     Content="Back"
                     Style="{StaticResource WhiteRoundedButton}"
@@ -29,30 +28,33 @@
                     Height="40"
                     Margin="20,15,0,0"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
                     Click="savedRoutinesBackBtn_Click" />
         </Border>
 
-        <!-- page content -->
-        <Grid Grid.Row="1">
-            <!-- content -->
-            <ListBox x:Name="routinesLBx"
-                     Margin="20"
-                     FontSize="18"
-                     Background="White"
-                     BorderBrush="#FFD1DC"
-                     BorderThickness="2">
-        <!-- the itemtemplate below keeps my pink theme -->
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}"
-                                   Foreground="{StaticResource PinkBrush}"
-                                   FontSize="18"
-                                   Margin="5" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+        <Button x:Name="deleteBtn"
+                Grid.Row="1"
+                Content="Delete Selected Routine"
+                Style="{StaticResource PinkRoundedButton}"
+                Height="45"
+                Margin="20,20,20,10"
+                FontSize="16"
+                FontWeight="Bold"
+                Click="deleteBtn_Click" />
 
-            </ListBox>
+        <Grid Grid.Row="2"
+              Margin="20,10,20,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label Content="Saved Routines History:"
+                   FontWeight="Bold"
+                   Foreground="{StaticResource PinkBrush}" />
+
+            <ListBox x:Name="routinesLBx"
+                     Grid.Row="1"
+                     Margin="0,5,0,0" />
         </Grid>
     </Grid>
 </Window>

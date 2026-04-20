@@ -25,6 +25,7 @@ namespace gymTracker
         public CreateWorkout()
         {
             InitializeComponent();
+            workoutDatePicker.SelectedDate = DateTime.Now; // set the date picker to default to today's date when the window opens
         }
 
         private void menuBackBtn_Click(object sender, RoutedEventArgs e)
@@ -69,27 +70,38 @@ namespace gymTracker
         {
             string name = workoutNameTbx.Text;
 
-            //turn list of exercises into one string (e.g., "Squats, Bench, Deadlift")
+            //turn list of exercises into one string ("squats - sets x reps ")
             string exercises = string.Join(", ", currentWorkoutExercises);
 
-            // get today's date as a string in the format "yyyy-MM-dd" (e.g., "2024-06-01")
-            string today = DateTime.Now.ToString("yyyy-MM-dd");
+            // get date from date picker
+            string selectedDate = workoutDatePicker.SelectedDate?.ToString("yyyy-MM-dd"); // format the date as a string in the format "yyyy-MM-dd" which is a common format for storing dates in databases
 
             // this will create the database file if it doesn't exist, and create the SavedWorkouts table if it doesn't exist, then insert the workout data
             using (var connection = new SqliteConnection("Data Source=C:\\temp\\gymData.db"))
             {
                 connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO SavedWorkouts (WorkoutName, Exercises, DateCreated) VALUES ($name, $ex, $date, $sets, $reps)"; // use parameterized query to prevent SQL injection [[copilot suggestion?]] this is important for security, especially if you ever expand this app to allow users to input more data or share workouts with others
+
+                var createTableCmd = connection.CreateCommand(); // create table if its missing
+                createTableCmd.CommandText = @"
+                    CREATE TABLE IF NOT EXISTS SavedWorkouts (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    WorkoutName TEXT NOT NULL,
+                    Exercises TEXT NOT NULL,
+                    DateCreated TEXT NOT NULL
+                    );";
+                createTableCmd.ExecuteNonQuery(); // execute the command to create the table if it doesn't exist
+
+                var command = connection.CreateCommand(); // create a command object to execute SQL commands against the database
+                command.CommandText = "INSERT INTO SavedWorkouts (WorkoutName, Exercises, DateCreated) VALUES ($name, $ex, $date)"; // use parameterized query to prevent SQL injection [[copilot suggestion?]] this is important for security, especially if you ever expand this app (which iwill) to allow users to input more data or share workouts with others
 
                 command.Parameters.AddWithValue("$name", name); // add the workout name parameter
                 command.Parameters.AddWithValue("$ex", exercises); // add the exercises parameter
-                command.Parameters.AddWithValue("$date", today); // add the date parameter
+                command.Parameters.AddWithValue("$date", selectedDate); // add the date parameter
 
                 command.ExecuteNonQuery(); // execute the command to insert the workout into the database
             }
 
-            MessageBox.Show("Workout successfully saved for today!");
+            new customMbx("Workout successfully saved for today!").Show();
 
             if (this.Owner != null) // if the owner window (MainWindow) is still open, refresh the workout list to show the newly added workout
             {
@@ -142,21 +154,29 @@ namespace gymTracker
 
             if (selectedExercise != null)
             {
+                // grab the numbers but check if they are still just the placeholder labels
+                string sets = (setsTbx.Text == setsTbx.Tag.ToString()) ? "0" : setsTbx.Text;
+                string reps = (repsTbx.Text == repsTbx.Tag.ToString()) ? "0" : repsTbx.Text;
+
+                // combine it all into one string for the list
+                string formattedExercise = $"{selectedExercise} - {sets} sets x {reps} reps";
+
                 // add to our list
-                currentWorkoutExercises.Add(selectedExercise);
+                currentWorkoutExercises.Add(formattedExercise);
 
                 // refresh the display ListBox (addedExercisesLBx)
                 addedExercisesLBx.ItemsSource = null;
                 addedExercisesLBx.ItemsSource = currentWorkoutExercises;
-                // clear the search box and hide the search results
-                exerciseSearchTbx.Text = "";
+
+                // clear everything and reset placeholders
                 exercisesLBx.Visibility = Visibility.Collapsed;
 
-                exerciseSearchTbx.Text = exerciseSearchTbx.Tag.ToString(); // from here on was trying to reset search/sets/reps placeholder but i couldn't get sets figured out
+                exerciseSearchTbx.Text = exerciseSearchTbx.Tag.ToString();
                 setsTbx.Text = setsTbx.Tag.ToString();
                 repsTbx.Text = repsTbx.Tag.ToString();
 
-                exerciseSearchTbx.Focus(); // set focus back to the search box for convenience
+                // set focus back to the search box for our convenience
+                exerciseSearchTbx.Focus();
             }
             else
             {
