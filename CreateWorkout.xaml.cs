@@ -30,12 +30,20 @@ namespace gymTracker
 
         private void menuBackBtn_Click(object sender, RoutedEventArgs e)
         {
-            // open MainWindow window
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Owner = this; // set the owner of the main window to this create workout window
-            mainWindow.Show();
-            // close this create workout window
-            this.Hide();
+            // check if the owner exists so we can just show it again
+            if (this.Owner != null)
+            {
+                this.Owner.Show();
+            }
+            else
+            {
+                // backup in case owner was lost
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+            }
+
+            // close this window to keep memory clean
+            this.Close();
         }
 
         private void exerciseSearchTbx_GotFocus(object sender, RoutedEventArgs e)
@@ -149,14 +157,14 @@ namespace gymTracker
         }
         private void addExerciseBtn_Click(object sender, RoutedEventArgs e)
         {
-            // get the selected item from the search results (exercisesLBx)
+            // get the selected item from the search results
             var selectedExercise = exercisesLBx.SelectedItem as string;
 
             if (selectedExercise != null)
             {
                 // grab the numbers but check if they are still just the placeholder labels
-                string sets = (setsTbx.Text == setsTbx.Tag.ToString()) ? "0" : setsTbx.Text;
-                string reps = (repsTbx.Text == repsTbx.Tag.ToString()) ? "0" : repsTbx.Text;
+                string sets = (setsTbx.Text == "Sets" || string.IsNullOrWhiteSpace(setsTbx.Text)) ? "0" : setsTbx.Text;
+                string reps = (repsTbx.Text == "Reps" || string.IsNullOrWhiteSpace(repsTbx.Text)) ? "0" : repsTbx.Text;
 
                 // combine it all into one string for the list
                 string formattedExercise = $"{selectedExercise} - {sets} sets x {reps} reps";
@@ -164,49 +172,62 @@ namespace gymTracker
                 // add to our list
                 currentWorkoutExercises.Add(formattedExercise);
 
-                // refresh the display ListBox (addedExercisesLBx)
+                // refresh the display ListBox
                 addedExercisesLBx.ItemsSource = null;
                 addedExercisesLBx.ItemsSource = currentWorkoutExercises;
 
                 // clear everything and reset placeholders
                 exercisesLBx.Visibility = Visibility.Collapsed;
+                exerciseSearchTbx.Text = "";
 
-                exerciseSearchTbx.Text = exerciseSearchTbx.Tag.ToString();
-                setsTbx.Text = setsTbx.Tag.ToString();
-                repsTbx.Text = repsTbx.Tag.ToString();
+                setsTbx.Text = "Sets";
+                setsTbx.Foreground = Brushes.Gray;
 
-                // set focus back to the search box for our convenience
+                repsTbx.Text = "Reps";
+                repsTbx.Foreground = Brushes.Gray;
+
+                // set focus back to search box for our convenience
                 exerciseSearchTbx.Focus();
             }
             else
             {
-                MessageBox.Show("Please select an exercise from the search results list first!");
+                new customMbx("Please select an exercise from the search results list first!").Show();
             }
         }
 
         private void setsTbx_GotFocus(object sender, RoutedEventArgs e)
         {
-            setsTbx.Tag = "";
+            if (setsTbx.Text == "Sets")
+            {
+                setsTbx.Text = "";
+                setsTbx.Foreground = Brushes.Black; // change text to black when typing
+            }
         }
 
         private void setsTbx_LostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(setsTbx.Text))
             {
-                setsTbx.Tag = "Sets";
+                setsTbx.Text = "Sets";
+                setsTbx.Foreground = Brushes.Gray;
             }
         }
 
         private void repsTbx_GotFocus(object sender, RoutedEventArgs e)
         {
-            repsTbx.Tag = "";
+            if (repsTbx.Text == "Reps")
+            {
+                repsTbx.Text = "";
+                repsTbx.Foreground = Brushes.Black; // change text to black 
+            }   
         }
 
         private void repsTbx_LostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(repsTbx.Text))
             {
-                repsTbx.Tag = "Reps";
+                repsTbx.Text = "Reps";
+                repsTbx.Foreground = Brushes.Gray;
             }
         }
     }
