@@ -15,7 +15,7 @@ namespace gymTracker
 
         public static void InitializeDatabase()
         {
-            SQLitePCL.Batteries.Init(); // had to troubleshoot this w copilot, it was giving me an error about not being able to find the SQLite library, hopefully this fixes it
+            SQLitePCL.Batteries.Init(); // had to troubleshoot this w copilot, it was giving me an error about not being able to find the SQLite library, hopefully this fixes it [it did]
             // creates the file if it doesn't exist
             using (var connection = new SqliteConnection($"Data Source={dbPath}"))
             {
@@ -32,7 +32,7 @@ namespace gymTracker
                     Reps INTEGER, -- New column
                     DateCreated TEXT NOT NULL
                     );;";
-                command.ExecuteNonQuery();
+                command.ExecuteNonQuery(); // execute the command to create the table if it doesn't exist
             }
         }
     }

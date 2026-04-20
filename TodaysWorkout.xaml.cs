@@ -43,7 +43,7 @@ namespace gymTracker
                     {
                         // update labels/textblocks with the data from the database
                         workoutNameLabel.Content = reader.GetString(0);
-                        exercisesTextBlock.Text = reader.GetString(1);
+                        exercisesTextBlock.Text = reader.GetString(1).Replace(",", "\n");
                     }
                 }
             }

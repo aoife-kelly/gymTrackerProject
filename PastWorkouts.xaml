@@ -1,0 +1,122 @@
+﻿<Window x:Class="gymTracker.PastWorkouts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:gymTracker"
+        mc:Ignorable="d"
+        Title="PastWorkouts"
+        Height="844"
+        Width="399"
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Style="{StaticResource HeaderBar}">
+            <Button x:Name="pastWorkoutsBackBtn"
+                    Content="Back"
+                    Style="{StaticResource WhiteRoundedButton}"
+                    Width="70"
+                    Height="40"
+                    Margin="20,15,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="pastWorkoutsBackBtn_Click" />
+        </Border>
+
+        <StackPanel Grid.Row="2"
+                    Margin="20,10,20,20">
+            <Label Content="Workout History:"
+                   FontWeight="Bold"
+                   Foreground="{StaticResource PinkBrush}" />
+
+            <ListBox x:Name="pastWorkoutsLBx"
+                     Height="250"
+                     Margin="0,0,0,20"
+                     SelectionChanged="pastWorkoutsLBx_SelectionChanged" />
+            
+            <Label Content="Exercises Done:"
+                   FontWeight="Bold"
+                   Foreground="{StaticResource PinkBrush}"
+                   Margin="0,10,0,0" />
+
+            <Border Background="#FFF0F0"
+                    CornerRadius="10"
+                    Height="100"
+                    Margin="0,5,0,10">
+                
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <TextBlock x:Name="exerciseDetailsTxt"
+                        Text="Select a workout to see details..."
+                        TextWrapping="Wrap"
+                        Padding="10"
+                        FontStyle="Italic"
+                        Foreground="Gray" />
+                </ScrollViewer>
+            </Border>
+
+            <Separator Background="{StaticResource PinkBrush}"
+                       Margin="0,0,0,10" />
+
+            <Label Content="Workouts Per Week (Last 28 Days)"
+                   FontWeight="Bold"
+                   FontSize="18"
+                   HorizontalAlignment="Center"
+                   Foreground="{StaticResource PinkBrush}" />
+
+            <UniformGrid Columns="4"
+                         Height="150"
+                         Margin="0,10,0,0"
+                         VerticalAlignment="Bottom">
+                <Rectangle x:Name="week4Bar"
+                           Fill="{StaticResource PinkBrush}"
+                           Width="40"
+                           Height="0"
+                           VerticalAlignment="Bottom"
+                           Margin="5" />
+                <Rectangle x:Name="week3Bar"
+                           Fill="{StaticResource PinkBrush}"
+                           Width="40"
+                           Height="0"
+                           VerticalAlignment="Bottom"
+                           Margin="5" />
+                <Rectangle x:Name="week2Bar"
+                           Fill="{StaticResource PinkBrush}"
+                           Width="40"
+                           Height="0"
+                           VerticalAlignment="Bottom"
+                           Margin="5" />
+                <Rectangle x:Name="week1Bar"
+                           Fill="{StaticResource PinkBrush}"
+                           Width="40"
+                           Height="0"
+                           VerticalAlignment="Bottom"
+                           Margin="5" />
+            </UniformGrid>
+
+            <UniformGrid Columns="4">
+                <TextBlock Text="Week 4"
+                           HorizontalAlignment="Center"
+                           FontSize="10" />
+                <TextBlock Text="Week 3"
+                           HorizontalAlignment="Center"
+                           FontSize="10" />
+                <TextBlock Text="Week 2"
+                           HorizontalAlignment="Center"
+                           FontSize="10" />
+                <TextBlock Text="Week 1"
+                           HorizontalAlignment="Center"
+                           FontSize="10"
+                           FontWeight="Bold" />
+            </UniformGrid>
+        </StackPanel>
+    </Grid>
+</Window>

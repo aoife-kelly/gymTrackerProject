@@ -13,23 +13,24 @@
         SnapsToDevicePixels="True">
 
     <Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="70" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="70" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
 
-        <Border Grid.Row="0"
-                Style="{StaticResource HeaderBar}">
-            <Button x:Name="savedRoutinesBackBtn"
-                    Content="Back"
-                    Style="{StaticResource WhiteRoundedButton}"
-                    Width="70"
-                    Height="40"
-                    Margin="20,15,0,0"
-                    HorizontalAlignment="Left"
-                    Click="savedRoutinesBackBtn_Click" />
-        </Border>
+    <Border Grid.Row="0"
+            Style="{StaticResource HeaderBar}">
+        <Button x:Name="savedRoutinesBackBtn"
+                Content="Back"
+                Style="{StaticResource WhiteRoundedButton}"
+                Width="70"
+                Height="40"
+                Margin="20,15,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="savedRoutinesBackBtn_Click" />
+    </Border>
 
         <Button x:Name="deleteBtn"
                 Grid.Row="1"

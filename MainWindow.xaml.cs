@@ -109,5 +109,12 @@ namespace gymTracker
             }
         }
 
+        private void pastWorkoutsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            PastWorkouts pastWorkouts = new PastWorkouts();
+            pastWorkouts.Owner = this; // set the owner of the past workouts window to this main window
+            pastWorkouts.Show();
+            this.Hide();
+        }
     }
 }
