@@ -102,7 +102,7 @@
                          Tag="Sets"
                          Width="Auto"
                          Margin="0,0,5,0"
-                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
                          GotFocus="setsTbx_GotFocus"
                          LostFocus="setsTbx_LostFocus" />
 
@@ -111,7 +111,7 @@
                          Style="{StaticResource PinkTextBox}"
                          Tag="Reps"
                          Width="Auto"
-                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
                          GotFocus="repsTbx_GotFocus"
                          LostFocus="repsTbx_LostFocus" />
             </Grid>

@@ -8,10 +8,10 @@ using Microsoft.Data.Sqlite;
 
 namespace gymTracker
 {
-    public static class DatabaseHelper
+    public static class DatabaseHelper // i used ai for quite a bit of help w implementing the db
     {
         // This sets the path to your project folder
-        private static string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "gymData.db");
+        private static string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "gymData.db"); // this will create the database file in the same directory as the executable
 
         public static void InitializeDatabase()
         {

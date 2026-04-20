@@ -125,8 +125,8 @@ namespace gymTracker
 
         private async void exerciseSearchTbx_TextChanged(object sender, TextChangedEventArgs e)
         {
-            _cts?.Cancel();
-            _cts = new System.Threading.CancellationTokenSource();
+            _cts?.Cancel(); // cancel any previous API call if the user is still typing to avoid unnecessary calls and potential
+            _cts = new System.Threading.CancellationTokenSource(); // create a new CancellationTokenSource for the new API call
 
             try
             {
@@ -153,7 +153,7 @@ namespace gymTracker
                     exercisesLBx.Visibility = Visibility.Collapsed;
                 }
             }
-            catch (TaskCanceledException) { }
+            catch (TaskCanceledException) { } // we can just catch the TaskCanceledException that is thrown when we cancel the previous API call, and do nothing in that case since it's expected behavior when the user is still typing and we want to avoid unnecessary API calls
         }
         private void addExerciseBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -163,8 +163,8 @@ namespace gymTracker
             if (selectedExercise != null)
             {
                 // grab the numbers but check if they are still just the placeholder labels
-                string sets = (setsTbx.Text == "Sets" || string.IsNullOrWhiteSpace(setsTbx.Text)) ? "0" : setsTbx.Text;
-                string reps = (repsTbx.Text == "Reps" || string.IsNullOrWhiteSpace(repsTbx.Text)) ? "0" : repsTbx.Text;
+                string sets = (setsTbx.Text == "Sets" || string.IsNullOrWhiteSpace(setsTbx.Text)) ? "0" : setsTbx.Text; // if the text is still "sets" or empty/whitespace we treat it as 0, otherwise we take the users input
+                string reps = (repsTbx.Text == "Reps" || string.IsNullOrWhiteSpace(repsTbx.Text)) ? "0" : repsTbx.Text; // same for reps - our defensive coding
 
                 // combine it all into one string for the list
                 string formattedExercise = $"{selectedExercise} - {sets} sets x {reps} reps";
@@ -197,15 +197,17 @@ namespace gymTracker
 
         private void setsTbx_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (setsTbx.Text == "Sets")
+            // we check if the text is "sets" (ignoring spaces or capitals)
+            if (setsTbx.Text.Trim().ToLower() == "sets")
             {
                 setsTbx.Text = "";
-                setsTbx.Foreground = Brushes.Black; // change text to black when typing
+                setsTbx.Foreground = Brushes.Black;
             }
         }
 
         private void setsTbx_LostFocus(object sender, RoutedEventArgs e)
         {
+            // if they left it empty, put the placeholder back
             if (string.IsNullOrWhiteSpace(setsTbx.Text))
             {
                 setsTbx.Text = "Sets";
@@ -215,11 +217,11 @@ namespace gymTracker
 
         private void repsTbx_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (repsTbx.Text == "Reps")
+            if (repsTbx.Text.Trim().ToLower() == "reps")
             {
                 repsTbx.Text = "";
-                repsTbx.Foreground = Brushes.Black; // change text to black 
-            }   
+                repsTbx.Foreground = Brushes.Black;
+            }
         }
 
         private void repsTbx_LostFocus(object sender, RoutedEventArgs e)

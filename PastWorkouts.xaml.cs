@@ -54,10 +54,10 @@ namespace gymTracker
                 {
                     while (reader.Read())
                     {
-                        string name = reader.GetString(0);
-                        string date = reader.GetString(1);
-                        string exercises = reader.GetString(2);
-                        pastWorkoutsLBx.Items.Add($"{name} ({date}): {exercises}");
+                        string name = reader.GetString(0); // grab workout name
+                        string date = reader.GetString(1); // grab date created
+                        string exercises = reader.GetString(2); // grab exercises - show these when the user clicks on the workout in the listbox, need to grab them here to store them in the listbox item for later retrieval when clicked
+                        pastWorkoutsLBx.Items.Add($"{name} ({date}): {exercises}"); // add workout name and date to the listbox, split this string later to get the exercises when the user clicks on the workout in the listbox
                     }
                 }
             }
@@ -67,7 +67,6 @@ namespace gymTracker
         {
             if (pastWorkoutsLBx.SelectedItem != null)
             {
-                // reusing code again
                 string selectedItem = pastWorkoutsLBx.SelectedItem.ToString();
                 string workoutName = selectedItem.Split('(')[0].Trim();
 
